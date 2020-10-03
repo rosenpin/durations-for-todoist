@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Durations For Todoist</title>
+</head>
+<body>
+<h2>Hello {{USER_ID}}</h2>
+<h2>Choose how you want the durations to apply</h2>
+<h3>Current selection {{CURRENT_MODE}}</h3>
+<form action="/submit" method="get">
+    <br>
+    <input type="radio" id="labels" name="mode" value="labels" [[labels_checked]]>
+    <label for="labels">Labels</label>
+    <br>
+    <input type="radio" id="projects" name="mode" value="projects" [[projects_checked]]>
+    <label for="projects">Projects</label>
+    <br>
+    <br>
+    <input type="submit" value="Submit">
+</form>
+</body>
+</html>

@@ -15,6 +15,9 @@ class TodoistWrapper:
     def add_label(self, name):
         raise NotImplementedError()
 
+    def get_label(self, label_id):
+        raise NotImplementedError()
+
     def add_project(self, name):
         raise NotImplementedError()
 
@@ -28,4 +31,7 @@ class TodoistWrapper:
         raise NotImplementedError()
 
     def get_all_projects(self):
+        raise NotImplementedError()
+
+    def get_user_id(self):
         raise NotImplementedError()

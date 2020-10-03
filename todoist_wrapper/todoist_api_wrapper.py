@@ -1,5 +1,4 @@
 from todoist import TodoistAPI
-from todoist.models import Filter
 
 from todoist_wrapper.todoist_wrapper import TodoistWrapper
 
@@ -9,6 +8,9 @@ class TodoistAPIWrapper(TodoistWrapper):
         self.api = TodoistAPI(token=token)
         self.api.reset_state()
         self.sync()
+
+    def get_user_id(self):
+        return self.api.user.get_id()
 
     def get_all_labels(self):
         return self.api.labels.all()
@@ -26,6 +28,9 @@ class TodoistAPIWrapper(TodoistWrapper):
         self.api.labels.add(name=name)
         self.commit()
 
+    def get_label(self, label_id):
+        return self.api.labels.get(label_id=label_id)
+
     def add_project(self, name):
         self.api.projects.add(name=name)
         self.commit()
@@ -41,4 +46,3 @@ class TodoistAPIWrapper(TodoistWrapper):
 
     def commit(self):
         return self.api.commit()
-
