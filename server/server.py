@@ -49,8 +49,9 @@ def webhook():
 
     # if already busy updating tasks for this user
     # even after being busy we might still receive updates because we updated many tasks
-    if instances[uid] == BUSY_INSTANCE or instances[uid] > time.time() - 2 * MINUTE:
-        return make_response("200 OK")
+    if uid in instances:
+        if instances[uid] == BUSY_INSTANCE or instances[uid] > time.time() - 2 * MINUTE:
+            return make_response("200 OK")
 
     instances[uid] = BUSY_INSTANCE
     thread = Thread(target=handle_user_tasks, kwargs={
