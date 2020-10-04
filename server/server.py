@@ -1,5 +1,6 @@
 import getpass
 import os
+from threading import Thread
 
 from flask import Flask, redirect, request, make_response
 from oauthlib.oauth2 import WebApplicationClient
@@ -35,8 +36,15 @@ def index():
 @app.route("/webhook", methods=["POST", "GET"])
 def webhook():
     req = request.json
-    user_id = req[WEB_HOOK_USER_ID_FIELD]
-    logic_runner.run_for_user(user_id)
+
+    def handle_user_tasks(user_id):
+        logic_runner.run_for_user(user_id)
+
+    thread = Thread(target=handle_user_tasks, kwargs={
+        'user_id': req[WEB_HOOK_USER_ID_FIELD]
+    })
+    thread.start()
+
     return make_response("200 OK")
 
 
