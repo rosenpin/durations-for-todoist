@@ -35,3 +35,7 @@ WEB_HOOK_USER_ID_FIELD = "user_id"
 # Cookie names
 COOKIE_STATE = "state"
 COOKIE_USERID = "user_id"
+
+# Workaround proxy
+INNER_SERVER = "http://0.0.0.0:9990"
+OUTER_SERVER = "https://durations.rosenpin.io"

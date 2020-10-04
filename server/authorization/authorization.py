@@ -21,6 +21,8 @@ def handle_authorization_request(client):
     return response
 
 
+
+
 def handle_redirect_request(client):
     # validate state
     expected_state = request.cookies.get(COOKIE_STATE)
@@ -28,7 +30,8 @@ def handle_redirect_request(client):
         abort(make_response("invalid state"))
 
     # parse uri params
-    parsed = client.parse_request_uri_response(request.url, state=expected_state)
+    url = request.url.replace(INNER_SERVER, OUTER_SERVER)
+    parsed = client.parse_request_uri_response(url, state=expected_state)
 
     oauth = OAuth2Session(client=client)
     token = oauth.fetch_token(token_url=TODOIST_TOKEN_URL,
