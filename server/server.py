@@ -1,3 +1,4 @@
+import getpass
 import os
 
 from flask import Flask, redirect, request, make_response
@@ -9,7 +10,9 @@ from server.authorization import authorization
 from server.consts import *
 from server.settings import handle_settings
 
-os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
+if getpass.getuser() == "tomer":
+    os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
+
 app = Flask(__name__)
 
 client = WebApplicationClient(CLIENT_ID)
