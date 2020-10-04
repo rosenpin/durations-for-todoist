@@ -36,11 +36,13 @@ class DB:
         self.db.remove(Query().user_id == user_id)
 
     def add_user(self, user_id, token, full_name, mode=DEFAULT_MODE):
-        found = self.get_user_by_user_id(user_id=user_id)
-        if found:
+        try:
+            found = self.get_user_by_user_id(user_id=user_id)
             previous_mode = found.mode
             if mode == DEFAULT_MODE:
                 mode = previous_mode
+        except KeyError:
+            pass
 
         self.remove_user_by_token(token=token)
         self.remove_user_by_user_id(user_id=user_id)
