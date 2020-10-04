@@ -12,6 +12,9 @@ from server.authorization import authorization
 from server.consts import *
 from server.settings import handle_settings
 
+WEB_HOOK_TASK_ID = "id"
+
+WEB_HOOK_TASK_DATA = "event_data"
 
 DEBUG = getpass.getuser() == "tomer"
 if DEBUG:
@@ -41,8 +44,8 @@ def index():
 def webhook():
     req = request.json
 
-    def handle_user_tasks(user_id):
-        logic_runner.run_for_user(user_id)
+    def handle_user_task(user_id, task_id):
+        logic_runner.run_specific_task_for_user(user_id=user_id, task_id=task_id)
         instances[user_id] = time.time()
 
     uid = req[WEB_HOOK_USER_ID_FIELD]
@@ -51,11 +54,14 @@ def webhook():
     # even after being busy we might still receive updates because we updated many tasks
     if uid in instances:
         if instances[uid] == BUSY_INSTANCE or instances[uid] > time.time() - 2 * MINUTE:
+            print("ignoring request because user is in cooldown")
             return make_response("200 OK")
 
+    tid = req[WEB_HOOK_TASK_DATA][WEB_HOOK_TASK_ID]
     instances[uid] = BUSY_INSTANCE
-    thread = Thread(target=handle_user_tasks, kwargs={
-        'user_id': uid
+    thread = Thread(target=handle_user_task, kwargs={
+        'user_id': uid,
+        'task_id': tid
     })
     thread.start()
 

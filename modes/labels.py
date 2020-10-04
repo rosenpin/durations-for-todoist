@@ -17,8 +17,11 @@ class LabelsMode(Mode):
             if label_name not in labels_names:
                 self.doist.add_label(label_name)
 
+    def is_task_relevant(self, task) -> bool:
+        return self.is_duration_label_available(task=task)
+
     def get_relevant_tasks(self):
-        return self.doist.get_tasks(lambda task: self.is_duration_label_available(task))
+        return self.doist.get_tasks(lambda task: self.is_task_relevant(task=task))
 
     def get_label_name_from_id(self, label_id):
         label = self.doist.get_label(label_id=label_id)

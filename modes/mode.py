@@ -15,3 +15,6 @@ class Mode(metaclass=abc.ABCMeta):
 
     def get_duration(self, task) -> int:
         raise NotImplementedError()
+
+    def is_task_relevant(self, task) -> bool:
+        raise NotImplementedError()

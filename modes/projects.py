@@ -22,6 +22,9 @@ class ProjectsMode(Mode):
             if label not in project_names:
                 self.doist.add_project(label)
 
+    def is_task_relevant(self, task) -> bool:
+        return is_duration_project(project_name=self.get_project_from_task(task))
+
     def get_project_from_task(self, task):
         project_id = task[consts.TaskFields.ProjectID]
         project = self.doist.get_project(project_id=project_id)
@@ -30,7 +33,7 @@ class ProjectsMode(Mode):
         return project_name
 
     def get_relevant_tasks(self):
-        return self.doist.get_tasks(lambda task: is_duration_project(project_name=self.get_project_from_task(task)))
+        return self.doist.get_tasks(lambda task: self.is_task_relevant(task=task))
 
     def get_duration(self, task: Item) -> int:
         project_name = self.get_project_from_task(task=task)

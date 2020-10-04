@@ -28,7 +28,8 @@ duration_labels = {
     clock_icon + "1h": 60,
     clock_icon + "2h": 120,
     clock_icon + "3h": 180,
-    clock_icon + "4h": 240
+    clock_icon + "4h": 240,
+    clock_icon + "8h": 480
 }
 
 # duration_labels = {
