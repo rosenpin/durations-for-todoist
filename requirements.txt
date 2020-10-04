@@ -1,0 +1,7 @@
+oauthlib==3.1.0
+todoist_python==8.1.2
+requests_oauthlib==1.3.0
+Flask==1.1.2
+dataclasses==0.7
+tinydb==4.2.0
+todoist==0.0.1
