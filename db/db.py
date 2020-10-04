@@ -54,7 +54,7 @@ class DB:
         })
 
     def get_user_by_user_id(self, user_id: str) -> User:
-        users = self.db.search(Query().user_id == user_id)
+        users = self.db.search(Query().user_id == str(user_id))
         if len(users) != 1:
             raise KeyError("User with user id %s not found" % user_id)
         return User(users[0])
