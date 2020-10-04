@@ -39,3 +39,7 @@ COOKIE_USERID = "user_id"
 # Workaround proxy
 INNER_SERVER = "http://0.0.0.0:9990"
 OUTER_SERVER = "https://durations.rosenpin.io"
+
+# Cooldown related consts
+MINUTE = 60
+BUSY_INSTANCE = 0

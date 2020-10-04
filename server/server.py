@@ -1,5 +1,6 @@
 import getpass
 import os
+import time
 from threading import Thread
 
 from flask import Flask, redirect, request, make_response
@@ -11,6 +12,7 @@ from server.authorization import authorization
 from server.consts import *
 from server.settings import handle_settings
 
+
 DEBUG = getpass.getuser() == "tomer"
 if DEBUG:
     os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
@@ -20,6 +22,8 @@ app = Flask(__name__)
 client = WebApplicationClient(CLIENT_ID)
 
 db = DB()
+
+instances = {}
 
 
 @app.route("/")
@@ -39,9 +43,18 @@ def webhook():
 
     def handle_user_tasks(user_id):
         logic_runner.run_for_user(user_id)
+        instances[user_id] = time.time()
 
+    uid = req[WEB_HOOK_USER_ID_FIELD]
+
+    # if already busy updating tasks for this user
+    # even after being busy we might still receive updates because we updated many tasks
+    if instances[uid] == BUSY_INSTANCE or instances[uid] > time.time() - 2 * MINUTE:
+        return make_response("200 OK")
+
+    instances[uid] = BUSY_INSTANCE
     thread = Thread(target=handle_user_tasks, kwargs={
-        'user_id': req[WEB_HOOK_USER_ID_FIELD]
+        'user_id': uid
     })
     thread.start()
 
