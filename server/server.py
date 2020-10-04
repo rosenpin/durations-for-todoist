@@ -10,7 +10,8 @@ from server.authorization import authorization
 from server.consts import *
 from server.settings import handle_settings
 
-if getpass.getuser() == "tomer":
+DEBUG = getpass.getuser() == "tomer"
+if DEBUG:
     os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
 app = Flask(__name__)
@@ -18,6 +19,17 @@ app = Flask(__name__)
 client = WebApplicationClient(CLIENT_ID)
 
 db = DB()
+
+
+@app.route("/")
+def index():
+    user_id = request.cookies.get(COOKIE_USERID)
+    if user_id:
+        return redirect("settings")
+
+    with open(HOME_PAGE, 'r') as file:
+        data = file.read()
+        return make_response(data)
 
 
 @app.route("/webhook", methods=["POST", "GET"])
@@ -55,4 +67,4 @@ def redirect_url():
 
 
 def run_server():
-    app.run(port=SERVER_PORT)
+    app.run(port=SERVER_PORT, debug=DEBUG)

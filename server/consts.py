@@ -7,6 +7,7 @@ HTML_CURRENT_USER_PH = "{{USER_ID}}"
 HTML_CURRENT_MODE_PH = '{{CURRENT_MODE}}'
 
 # Paths
+SETTINGS_PAGE = "resources/settings.html"
 HOME_PAGE = "resources/index.html"
 
 # Client keys

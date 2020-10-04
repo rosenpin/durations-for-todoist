@@ -1,4 +1,5 @@
 from flask import request, make_response
+from werkzeug.utils import redirect
 
 from .consts import *
 
@@ -24,8 +25,11 @@ def mark_selected_mode(page, user):
 
 def handle_settings(db):
     user_id = request.cookies.get(COOKIE_USERID)
+    if not user_id:
+        return redirect("/")
+
     user = db.get_user_by_user_id(user_id=user_id)
-    with open(HOME_PAGE, 'r') as file:
+    with open(SETTINGS_PAGE, 'r') as file:
         data = file.read()
 
         data = add_mode(data, user)
