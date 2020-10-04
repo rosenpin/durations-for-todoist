@@ -1,5 +1,6 @@
 from todoist import TodoistAPI
 
+import consts
 from todoist_wrapper.todoist_wrapper import TodoistWrapper
 
 
@@ -11,6 +12,9 @@ class TodoistAPIWrapper(TodoistWrapper):
 
     def get_user_id(self):
         return self.api.user.get_id()
+
+    def get_user_name(self):
+        return self.api.user.state[consts.STATE_USER_FIELD][consts.STATE_USER_FULL_NAME_FIELD]
 
     def get_all_labels(self):
         return self.api.labels.all()

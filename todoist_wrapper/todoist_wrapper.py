@@ -35,3 +35,6 @@ class TodoistWrapper:
 
     def get_user_id(self):
         raise NotImplementedError()
+
+    def get_user_name(self):
+        raise NotImplementedError()
