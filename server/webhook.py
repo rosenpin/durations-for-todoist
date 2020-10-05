@@ -21,7 +21,7 @@ def should_handle_user(user_id):
     if user_id in instances:
         # if already busy updating tasks for this user
         # even after being busy we might still receive updates because we updated many tasks
-        if instances[user_id] == BUSY_INSTANCE or instances[user_id] > time.time() - 2 * MINUTE:
+        if instances[user_id] == BUSY_INSTANCE or instances[user_id] > time.time() - 30:
             return False
     return True
 
@@ -33,7 +33,7 @@ def handle_web_hook():
 
     if not should_handle_user(user_id=user_id):
         print("ignoring request because user is in cooldown")
-        return make_response("200 OK")
+        return
 
     task_id = req[WEB_HOOK_TASK_DATA][WEB_HOOK_TASK_ID]
     instances[user_id] = BUSY_INSTANCE

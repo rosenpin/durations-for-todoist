@@ -35,7 +35,7 @@ def index():
         return make_response(SERVER_ERROR_MESSAGE.format(error=err))
 
 
-@app.route("/webhook", methods=["POST", "GET"])
+@app.route("/webhook", methods=["POST"])
 def webhook():
     try:
         handle_web_hook()

@@ -21,7 +21,10 @@ class Logic:
 
         task = self.doist.get_task_by_id(task_id)
         if TASK_ITEM_FIELD not in task:
+            print("invalid task provided to run_specific_task")
+            print(task)
             return
+
         if mode.is_task_relevant(task=task[TASK_ITEM_FIELD]):
             self.handle_task(task=task[TASK_ITEM_FIELD], mode=mode)
 
