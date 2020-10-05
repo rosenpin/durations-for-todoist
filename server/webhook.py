@@ -6,13 +6,6 @@ from flask import request, make_response
 import logic_runner
 from server.consts import *
 
-ALL_TASKS_SUCCESS_MESSAGE = "SUCCESS you tasks won't be updated for the next 15 minutes"
-
-HTTP_USER_ERROR = 401
-
-USER_NOT_FOUND_MESSAGE = "user with user_id %s not found in db"
-
-USER_IN_COOLDOWN_MESSAGE = "ignoring request because user is in cooldown"
 
 instances = {}
 
@@ -24,7 +17,7 @@ def handle_all_user_tasks(user_id):
 
     try:
         logic_runner.run_for_user(user_id=user_id)
-        instances[user_id] = time.time() + 15 * MINUTE
+        instances[user_id] = time.time() + UPDATE_ALL_COOLDOWN
         return make_response(ALL_TASKS_SUCCESS_MESSAGE)
     except KeyError:
         print(USER_NOT_FOUND_MESSAGE % user_id)

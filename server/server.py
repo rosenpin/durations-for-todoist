@@ -64,7 +64,7 @@ def settings():
         response = handle_settings(db=db)
         return response
     except Exception as e:
-        return make_response(SERVER_ERROR_MESSAGE.format(error=e), 501)
+        return make_response(SERVER_ERROR_MESSAGE.format(error=e), HTTP_SERVER_ERROR)
 
 
 @app.route("/submit")

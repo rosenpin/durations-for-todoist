@@ -46,6 +46,7 @@ OUTER_SERVER = "https://durations.rosenpin.io"
 # Cooldown related consts
 MINUTE = 60
 BUSY_INSTANCE = 0
+UPDATE_ALL_COOLDOWN = 15 * MINUTE
 
 # Webhook related consts
 WEB_HOOK_TASK_ID = "id"
@@ -54,3 +55,12 @@ WEB_HOOK_TASK_DATA = "event_data"
 # Error Messages
 WEBHOOK_ERROR_MESSAGE = "Error in webhook for request:\n\n {request}:\n\n {error}"
 SERVER_ERROR_MESSAGE = "Server error: \n\n{error}"
+USER_NOT_FOUND_MESSAGE = "user with user_id %s not found in db"
+USER_IN_COOLDOWN_MESSAGE = "ignoring request because user is in cooldown"
+
+# Messages
+ALL_TASKS_SUCCESS_MESSAGE = "SUCCESS you tasks won't be updated for the next 15 minutes"
+
+# HTTP codes
+HTTP_USER_ERROR = 401
+HTTP_SERVER_ERROR = 501
