@@ -8,7 +8,7 @@ from db.db import DB
 from server.authorization import authorization
 from server.consts import *
 from server.settings import handle_settings, handle_submit
-from server.webhook import handle_web_hook
+from server.webhook import handle_web_hook, handle_all_user_tasks
 
 DEBUG = getpass.getuser() == "tomer"
 if DEBUG:
@@ -32,6 +32,19 @@ def index():
             data = file.read()
             return make_response(data)
     except Exception as err:
+        return make_response(SERVER_ERROR_MESSAGE.format(error=err))
+
+
+@app.route("/update-all")
+def update_all():
+    user_id = request.cookies.get(COOKIE_USERID)
+    if not user_id:
+        return redirect("/")
+
+    try:
+        return handle_all_user_tasks(user_id=user_id)
+    except Exception as err:
+        print(SERVER_ERROR_MESSAGE.format(error=err))
         return make_response(SERVER_ERROR_MESSAGE.format(error=err))
 
 
