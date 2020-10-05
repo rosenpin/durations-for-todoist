@@ -28,7 +28,11 @@ def handle_settings(db):
     if not user_id:
         return redirect("/")
 
-    user = db.get_user_by_user_id(user_id=user_id)
+    try:
+        user = db.get_user_by_user_id(user_id=user_id)
+    except KeyError:
+        return redirect("/")
+
     with open(SETTINGS_PAGE, 'r') as file:
         data = file.read()
 

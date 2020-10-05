@@ -45,8 +45,11 @@ def webhook():
     req = request.json
 
     def handle_user_task(user_id, task_id):
-        logic_runner.run_specific_task_for_user(user_id=user_id, task_id=task_id)
-        instances[user_id] = time.time()
+        try:
+            logic_runner.run_specific_task_for_user(user_id=user_id, task_id=task_id)
+            instances[user_id] = time.time()
+        except KeyError:
+            print("user with user_id %s not found in db", user_id)
 
     uid = req[WEB_HOOK_USER_ID_FIELD]
 
