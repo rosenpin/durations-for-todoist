@@ -10,4 +10,4 @@ update-repo:
     - pwd
     - cd /home/ubuntu/durations-for-todoist
     - git pull origin master
-    - sudo ~/run-durations.sh &
+    - sudo systemctl restart durations-todoist.service
