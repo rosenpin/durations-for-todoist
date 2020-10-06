@@ -1,0 +1,11 @@
+stages:
+  - update-repo
+
+update-repo:
+  stage: update-repo
+  only:
+    - master
+  script:
+    - cd /home/ubuntu/durations-for-todoist
+    - git pull origin master
+    - /home/ubuntu/run-durations.sh
