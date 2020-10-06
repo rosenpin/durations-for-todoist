@@ -28,7 +28,11 @@ def handle_settings(db):
     if not user_id:
         return redirect("/")
 
-    user = db.get_user_by_user_id(user_id=user_id)
+    try:
+        user = db.get_user_by_user_id(user_id=user_id)
+    except KeyError:
+        return redirect("/")
+
     with open(SETTINGS_PAGE, 'r') as file:
         data = file.read()
 
@@ -37,3 +41,10 @@ def handle_settings(db):
         data = mark_selected_mode(data, user)
 
         return make_response(data)
+
+
+def handle_submit(db):
+    mode = request.args.get("mode")
+    user_id = request.cookies.get(COOKIE_USERID)
+    db.update_user_mode(user_id=user_id, mode=mode)
+    return redirect(SETTINGS_PAGE_LOCATION)

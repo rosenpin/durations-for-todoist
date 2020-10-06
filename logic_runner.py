@@ -13,24 +13,25 @@ modes = {
 db = DB()
 
 
-def run_specific_task_for_user(user_id, task_id):
+def create_logic(user_id):
     user = db.get_user_by_user_id(user_id=user_id)
 
     doist = TodoistAPIWrapper(token=user.token)
     duration_setter = DurationSetter(doist)
 
-    logic = Logic(ds=duration_setter, doist=doist)
-    logic.run_specific_task(mode=modes[user.mode](doist=doist), task_id=task_id)
+    logic = Logic(ds=duration_setter, doist=doist, mode=modes[user.mode](doist=doist))
+    return logic
+
+
+def run_specific_task_for_user(user_id, task_id):
+    logic = create_logic(user_id=user_id)
+
+    logic.run_specific_task(task_id=task_id)
 
 
 def run_for_user(user_id):
-    user = db.get_user_by_user_id(user_id=user_id)
-
-    doist = TodoistAPIWrapper(token=user.token)
-    duration_setter = DurationSetter(doist)
-
-    logic = Logic(ds=duration_setter, doist=doist)
-    logic.run(modes[user.mode](doist=doist))
+    logic = create_logic(user_id)
+    logic.run()
 
 
 def run_for_all_users():
