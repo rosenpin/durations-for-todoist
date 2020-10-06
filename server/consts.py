@@ -1,3 +1,5 @@
+import pathlib
+
 SERVER_PORT = 9990
 
 # Page locations
@@ -10,8 +12,8 @@ HTML_CURRENT_USER_PH = "{{USER_ID}}"
 HTML_CURRENT_MODE_PH = '{{CURRENT_MODE}}'
 
 # Paths
-SETTINGS_PAGE = "resources/settings.html"
-HOME_PAGE = "resources/index.html"
+SETTINGS_PAGE = pathlib.Path(__file__).parent / "resources/settings.html"
+HOME_PAGE = pathlib.Path(__file__).parent / "resources/index.html"
 
 # Client keys
 CLIENT_SECRET = "98f91bda2f894fa19c03e92e5cb2e0fc"
