@@ -1,3 +1,4 @@
+import logging
 import re
 
 from consts import TaskFields
@@ -15,11 +16,12 @@ class DurationSetter:
     def set_duration(self, task, duration):
         title = task[TaskFields.Title]
         if self.already_annotated(title=title):
-            print("skipping %s. already annotated" % title)
+            logging.info("skipping %s. already annotated" % title)
             return
 
-        print("set {title} duration to {duration}".format(title=title, duration=duration))
+        logging.info("set {title} duration to {duration}".format(title=title, duration=duration))
         new_title = DURATION_FORMAT.format(original=title, duration=duration)
+        logging.debug(f"task new title is {new_title}")
         task.update(content=new_title)
         self.doist.commit()
 

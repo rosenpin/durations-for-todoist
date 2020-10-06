@@ -1,3 +1,5 @@
+import logging
+
 from todoist.models import Item
 
 from duration_setter import DurationSetter
@@ -14,24 +16,34 @@ class Logic:
         self.mode = mode
 
     def handle_task(self, task: Item):
-        duration = self.mode.get_duration(task)
+        duration = self.mode.get_duration(task=task)
+        logging.info("task duration is {duration}".format(duration=duration))
         self.ds.set_duration(task=task, duration=duration)
 
     def run_specific_task(self, task_id):
+        logging.info("running for specific task {task_id}".format(task_id=task_id))
         self.mode.prepare()
 
         task = self.doist.get_task_by_id(task_id)
-        if TASK_ITEM_FIELD not in task:
-            print("invalid task provided to run_specific_task")
-            print(task)
+
+        if self.mode.is_task_relevant(task=task):
+            logging.info("handling task")
+            self.handle_task(task=task)
             return
 
-        if self.mode.is_task_relevant(task=task[TASK_ITEM_FIELD]):
-            self.handle_task(task=task[TASK_ITEM_FIELD])
+        logging.info("task is not relevant {task}".format(task=task))
 
     def run(self):
+        logging.info("running for all user tasks")
+
         self.mode.prepare()
+        logging.info("prepared mode successfully")
 
         tasks = self.mode.get_relevant_tasks()
+        logging.info("got relevant tasks")
+
         for task in tasks:
+            logging.info("handling task")
             self.handle_task(task=task)
+
+        logging.info("handled all user tasks")

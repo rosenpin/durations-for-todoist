@@ -1,3 +1,5 @@
+import logging
+
 from todoist import TodoistAPI
 
 import consts
@@ -26,7 +28,7 @@ class TodoistAPIWrapper(TodoistWrapper):
         return self.api.items.all()
 
     def get_task_by_id(self, item_id):
-        return self.api.items.get(item_id)
+        return self.api.items.get_by_id(item_id)
 
     def add_label(self, name):
         self.api.labels.add(name=name)
@@ -49,4 +51,5 @@ class TodoistAPIWrapper(TodoistWrapper):
         return self.api.sync()
 
     def commit(self):
+        logging.debug(f"queue is {self.api.queue}")
         return self.api.commit()

@@ -49,6 +49,12 @@ OUTER_SERVER = "https://durations.rosenpin.io"
 MINUTE = 60
 BUSY_INSTANCE = 0
 UPDATE_ALL_COOLDOWN = 15 * MINUTE
+COOLDOWN_KEY_FORMAT = "{user_id}:{task_id}"
+
+
+def cooldown_key(user_id, task_id):
+    return COOLDOWN_KEY_FORMAT.format(user_id=user_id, task_id=task_id)
+
 
 # Webhook related consts
 WEB_HOOK_TASK_ID = "id"

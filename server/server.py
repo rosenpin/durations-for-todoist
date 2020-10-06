@@ -1,9 +1,12 @@
 import getpass
+import logging
 import os
+import traceback
 
 from flask import Flask, redirect, request, make_response
 from oauthlib.oauth2 import WebApplicationClient
 
+import utils
 from db.db import DB
 from server.authorization import authorization
 from server.consts import *
@@ -18,8 +21,6 @@ app = Flask(__name__)
 
 client = WebApplicationClient(CLIENT_ID)
 
-db = DB()
-
 
 @app.route("/")
 def index():
@@ -32,6 +33,7 @@ def index():
             data = file.read()
             return make_response(data)
     except Exception as err:
+        utils.log_error(err)
         return make_response(SERVER_ERROR_MESSAGE.format(error=err))
 
 
@@ -42,37 +44,42 @@ def update_all():
         return redirect("/")
 
     try:
-        return handle_all_user_tasks(user_id=user_id)
+        return handle_all_user_tasks(db=DB.get_instance(), user_id=user_id)
     except Exception as err:
-        print(SERVER_ERROR_MESSAGE.format(error=err))
+        utils.log_error(err)
         return make_response(SERVER_ERROR_MESSAGE.format(error=err))
 
 
 @app.route("/webhook", methods=["POST"])
 def webhook():
     try:
-        handle_web_hook()
+        handle_web_hook(db=DB.get_instance())
     except Exception as err:
-        print(WEBHOOK_ERROR_MESSAGE.format(request=request.json, error=err))
+        utils.log_error(err)
 
-    return make_response("200 OK")
+    response = make_response()
+    response.status_code = 200
+    logging.debug(response)
+    return response
 
 
 @app.route("/settings")
 def settings():
     try:
-        response = handle_settings(db=db)
+        response = handle_settings(db=DB.get_instance())
         return response
-    except Exception as e:
-        return make_response(SERVER_ERROR_MESSAGE.format(error=e), HTTP_SERVER_ERROR)
+    except Exception as err:
+        utils.log_error(err)
+        return make_response(SERVER_ERROR_MESSAGE.format(error=err), HTTP_SERVER_ERROR)
 
 
 @app.route("/submit")
 def submit():
     try:
-        response = handle_submit(db=db)
+        response = handle_submit(db=DB.get_instance())
         return response
     except Exception as err:
+        utils.log_error(err)
         return SERVER_ERROR_MESSAGE.format(error=err)
 
 
@@ -82,6 +89,7 @@ def authorize():
         response = authorization.handle_authorization_request(client=client)
         return response
     except Exception as err:
+        utils.log_error(err)
         return SERVER_ERROR_MESSAGE.format(error=err)
 
 
@@ -91,6 +99,7 @@ def redirect_url():
         response = authorization.handle_redirect_request(client=client)
         return response
     except Exception as err:
+        utils.log_error(err)
         return SERVER_ERROR_MESSAGE.format(error=err)
 
 

@@ -1,63 +1,63 @@
+import logging
 import threading
 import time
 
 from flask import request, make_response
 
 import logic_runner
+import utils
 from server.consts import *
 
 instances = {}
 
 
-def handle_all_user_tasks(user_id):
+def handle_all_user_tasks(db, user_id):
     if not should_handle_user(user_id=user_id):
-        print(USER_IN_COOLDOWN_MESSAGE)
+        logging.info(USER_IN_COOLDOWN_MESSAGE)
         return make_response(USER_IN_COOLDOWN_MESSAGE, HTTP_USER_ERROR)
 
     try:
-        logic_runner.run_for_user(user_id=user_id)
-        instances[user_id] = time.time() + UPDATE_ALL_COOLDOWN
+        logic_runner.run_for_user(db=db, user_id=user_id)
+        instances[cooldown_key(user_id, "")] = time.time() + UPDATE_ALL_COOLDOWN
         return make_response(ALL_TASKS_SUCCESS_MESSAGE)
-    except KeyError:
-        print(USER_NOT_FOUND_MESSAGE % user_id)
+    except KeyError as err:
+        utils.log_error(err)
         return make_response(USER_NOT_FOUND_MESSAGE % user_id, HTTP_USER_ERROR)
 
 
-def handle_user_task(user_id, task_id):
+def handle_user_task(db, user_id, task_id):
     try:
-        logic_runner.run_specific_task_for_user(user_id=user_id, task_id=task_id)
-        instances[user_id + task_id] = time.time()
-    except KeyError:
-        print(USER_NOT_FOUND_MESSAGE % user_id)
+        logic_runner.run_specific_task_for_user(db=db, user_id=user_id, task_id=task_id)
+        instances[cooldown_key(user_id, task_id)] = time.time()
+    except KeyError as err:
+        utils.log_error(err)
 
 
 def should_handle_user(user_id, task_id=""):
-    if user_id in instances:
+    if cooldown_key(user_id, task_id) in instances:
         # if already busy updating tasks for this user
         # even after being busy we might still receive updates because we updated many tasks
-        if instances[user_id] == BUSY_INSTANCE or instances[user_id] > time.time() - 30:
+        if int(instances[cooldown_key(user_id, task_id)]) == BUSY_INSTANCE or \
+                int(instances[cooldown_key(user_id, task_id)]) > time.time() - 30:
+            logging.debug("shouldn't handle user")
             return False
-
-        # if user is not in cooldown, check if only task is in cooldown
-        if task_id:
-            if instances[user_id + task_id] == BUSY_INSTANCE or instances[user_id + task_id] > time.time() - 30:
-                return False
     return True
 
 
-def handle_web_hook():
+def handle_web_hook(db):
     req = request.json
 
     user_id = req[WEB_HOOK_USER_ID_FIELD]
     task_id = req[WEB_HOOK_TASK_DATA][WEB_HOOK_TASK_ID]
 
     if not should_handle_user(user_id=user_id, task_id=task_id):
-        print(USER_IN_COOLDOWN_MESSAGE)
+        logging.info(USER_IN_COOLDOWN_MESSAGE)
         return
 
-    instances[user_id + task_id] = BUSY_INSTANCE
+    instances[cooldown_key(user_id, task_id)] = BUSY_INSTANCE
 
     thread = threading.Thread(target=handle_user_task, kwargs={
+        'db': db,
         'user_id': user_id,
         'task_id': task_id
     })

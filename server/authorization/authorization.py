@@ -21,8 +21,6 @@ def handle_authorization_request(client):
     return response
 
 
-
-
 def handle_redirect_request(client):
     # validate state
     expected_state = request.cookies.get(COOKIE_STATE)
