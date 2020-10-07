@@ -31,7 +31,7 @@ class Logic:
             self.handle_task(task=task)
             return
 
-        logging.info("task is not relevant {task}".format(task=task))
+        raise TypeError("task is not relevant {task}".format(task=task))
 
     def run(self):
         logging.info("running for all user tasks")

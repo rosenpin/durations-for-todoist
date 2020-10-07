@@ -31,6 +31,10 @@ def handle_user_task(db, user_id, task_id):
         instances[cooldown_key(user_id, task_id)] = time.time()
     except KeyError as err:
         utils.log_error(err)
+    except TypeError as err:
+        # put in shorter cooldown if task is irrelevant
+        instances[cooldown_key(user_id, task_id)] = time.time() - 20
+        logging.info(err)
 
 
 def should_handle_user(user_id, task_id=""):
