@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:a="http://www.w3.org/1999/html">
 <head>
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
@@ -9,42 +9,88 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta charset="UTF-8">
     <title>Durations For Todoist</title>
-    <link rel="icon" type="image/png" href="https://images.all-free-download.com/images/graphiclarge/red_background_clock_icon_vector_280622.jpg"/>
+    <link rel="icon" type="image/png"
+          href="https://images.all-free-download.com/images/graphiclarge/red_background_clock_icon_vector_280622.jpg"/>
+    <style>
+
+  body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+  }
+
+  main {
+    flex: 1 0 auto;
+  }
+
+
+
+
+
+
+
+    </style>
 </head>
 <body>
-<div class="container">
-    <h3>Hello {{USER_ID}}</h3>
-    <p class="flow-text">Choose how you want the durations to apply and click submit.</p>
-    <form action="/submit" method="get">
-        <p>
-            <label>
-                <input type="radio" id="labels" name="mode" value="labels" [[labels_checked]]>
-                <span>Labels</span>
-            </label>
-        </p>
-        <p>
-            <label>
-                <input type="radio" id="projects" name="mode" value="projects" [[projects_checked]]>
-                <span>Projects</span>
-            </label>
-        </p>
-        <br>
+<header>
+    <nav class="red">
+        <div class="nav-wrapper container">
+            <a>Hello {{USER_ID}}</a>
+            <ul id="nav-mobile" class="right">
+                <li>
+                    <a href="https://www.reddit.com/r/todoist/comments/j6o3bl/add_duration_to_your_todoist_tasks_with_durations/g7zl1mk/">Help</a>
+                </li>
+                <li>
+                    <a href="https://github.com/rosenpin">Dev</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+<main>
+    <div class="container">
+        <p class="flow-text">Choose how you want the durations to apply and click submit.</p>
+        <form action="/submit" method="get">
+            <p>
+                <label>
+                    <input type="radio" id="labels" name="mode" value="labels" [[labels_checked]]>
+                    <span>Labels</span>
+                </label>
+            </p>
+            <p>
+                <label>
+                    <input type="radio" id="projects" name="mode" value="projects" [[projects_checked]]>
+                    <span>Projects</span>
+                </label>
+            </p>
+            <br>
 
-        <button class="btn-large red waves-effect waves-light" type="submit" name="action">Submit
-            <i class="red material-icons right">send</i>
-        </button>
-    </form>
+            <button class="btn-large red waves-effect waves-light" type="submit" name="action">Submit
+                <i class="red material-icons right">send</i>
+            </button>
+        </form>
+    </div>
+</main>
 
-    <form style="margin-top: 10vh" class="center-align" action="https://www.paypal.com/cgi-bin/webscr" method="post"
-          target="_top">
-        <input type="hidden" name="cmd" value="_s-xclick"/>
-        <input type="hidden" name="hosted_button_id" value="PES85MB98DNEG"/>
-        <input type="image" src="https://www.paypalobjects.com/en_US/IL/i/btn/btn_donateCC_LG.gif" border="0"
-               name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button"/>
-        <img alt="" border="0" src="https://www.paypal.com/en_IL/i/scr/pixel.gif" width="1" height="1"/>
-    </form>
 
-</div>
+<footer class="page-footer white">
+    <div class="container">
+        <div class="row">
+            <form class="center-align" action="https://www.paypal.com/cgi-bin/webscr"
+                  method="post"
+                  target="_top">
+                <input type="hidden" name="cmd" value="_s-xclick"/>
+                <input type="hidden" name="hosted_button_id" value="PES85MB98DNEG"/>
+                <input type="image" src="https://www.paypalobjects.com/en_US/IL/i/btn/btn_donateCC_LG.gif" border="0"
+                       name="submit" title="PayPal - The safer, easier way to pay online!"
+                       alt="Donate with PayPal button"/>
+                <img alt="" border="0" src="https://www.paypal.com/en_IL/i/scr/pixel.gif" width="1" height="1"/>
+            </form>
+
+        </div>
+    </div>
+
+</footer>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </body>
 </html>
