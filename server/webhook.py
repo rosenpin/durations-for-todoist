@@ -45,6 +45,10 @@ def should_handle_user(user_id, task_id=""):
                 int(instances[cooldown_key(user_id, task_id)]) > time.time() - 30:
             logging.debug("shouldn't handle user")
             return False
+
+        # also check if user might be in cooldown
+        if task_id != "":
+            return should_handle_user(user_id=user_id, task_id="")
     return True
 
 
