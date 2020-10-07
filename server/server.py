@@ -57,10 +57,7 @@ def webhook():
     except Exception as err:
         utils.log_error(err)
 
-    response = make_response()
-    response.status_code = 200
-    logging.debug(response)
-    return response
+    return make_response("", 200)
 
 
 @app.route("/settings")
