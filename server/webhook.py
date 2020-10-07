@@ -46,9 +46,9 @@ def should_handle_user(user_id, task_id=""):
             logging.debug("shouldn't handle user")
             return False
 
-        # also check if user might be in cooldown
-        if task_id != "":
-            return should_handle_user(user_id=user_id, task_id="")
+    # also check if user might be in cooldown
+    if task_id != "":
+        return should_handle_user(user_id=user_id, task_id="")
     return True
 
 
