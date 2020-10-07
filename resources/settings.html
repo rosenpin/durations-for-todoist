@@ -13,10 +13,8 @@
 </head>
 <body>
 <div class="container">
-    <h2>Hello {{USER_ID}}</h2>
-    <h3>Choose how you want the durations to apply and click submit.</h3>
-    <br>
-    <br>
+    <h3>Hello {{USER_ID}}</h3>
+    <p class="flow-text">Choose how you want the durations to apply and click submit.</p>
     <form action="/submit" method="get">
         <p>
             <label>
@@ -36,6 +34,16 @@
             <i class="red material-icons right">send</i>
         </button>
     </form>
+
+    <form style="margin-top: 10vh" class="center-align" action="https://www.paypal.com/cgi-bin/webscr" method="post"
+          target="_top">
+        <input type="hidden" name="cmd" value="_s-xclick"/>
+        <input type="hidden" name="hosted_button_id" value="PES85MB98DNEG"/>
+        <input type="image" src="https://www.paypalobjects.com/en_US/IL/i/btn/btn_donateCC_LG.gif" border="0"
+               name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button"/>
+        <img alt="" border="0" src="https://www.paypal.com/en_IL/i/scr/pixel.gif" width="1" height="1"/>
+    </form>
+
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </body>
