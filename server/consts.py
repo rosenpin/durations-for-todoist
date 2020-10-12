@@ -14,6 +14,7 @@ HTML_CURRENT_MODE_PH = '{{CURRENT_MODE}}'
 # Paths
 SETTINGS_PAGE = pathlib.Path(__file__).parent.parent / "resources/settings.html"
 HOME_PAGE = pathlib.Path(__file__).parent.parent / "resources/index.html"
+FAVICON = pathlib.Path(__file__).parent.parent / "resources/favicon.png"
 
 modes = [
     "labels", "projects"

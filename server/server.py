@@ -1,7 +1,7 @@
 import getpass
 import os
 
-from flask import Flask, redirect, request, make_response
+from flask import Flask, redirect, request, make_response, send_file
 from oauthlib.oauth2 import WebApplicationClient
 
 import credentials
@@ -97,6 +97,11 @@ def redirect_url():
     except Exception as err:
         utils.log_error(err)
         return SERVER_ERROR_MESSAGE.format(error=err)
+
+
+@app.route("/favicon.png")
+def favicon():
+    return send_file(FAVICON)
 
 
 def run_server():
