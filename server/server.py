@@ -4,7 +4,7 @@ import os
 from flask import Flask, redirect, request, make_response, send_file
 from oauthlib.oauth2 import WebApplicationClient
 
-import credentials
+from consts import credentials
 import utils
 from db.db import DB
 from server.authorization import authorization

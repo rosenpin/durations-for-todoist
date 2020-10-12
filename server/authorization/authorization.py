@@ -4,7 +4,7 @@ import string
 from flask import redirect, request, abort, make_response, url_for
 from requests_oauthlib import OAuth2Session
 
-import credentials
+from consts import credentials
 from server.consts import *
 from .registration import register_user
 
