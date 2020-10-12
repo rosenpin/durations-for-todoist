@@ -4,6 +4,7 @@ import string
 from flask import redirect, request, abort, make_response, url_for
 from requests_oauthlib import OAuth2Session
 
+import credentials
 from server.consts import *
 from .registration import register_user
 
@@ -33,8 +34,8 @@ def handle_redirect_request(client):
 
     oauth = OAuth2Session(client=client)
     token = oauth.fetch_token(token_url=TODOIST_TOKEN_URL,
-                              client_id=CLIENT_ID,
-                              client_secret=CLIENT_SECRET,
+                              client_id=credentials.CLIENT_ID,
+                              client_secret=credentials.CLIENT_SECRET,
                               include_client_id=True,
                               code=parsed[PARAM_CODE])
 

@@ -1,11 +1,10 @@
 import getpass
-import logging
 import os
-import traceback
 
 from flask import Flask, redirect, request, make_response
 from oauthlib.oauth2 import WebApplicationClient
 
+import credentials
 import utils
 from db.db import DB
 from server.authorization import authorization
@@ -19,7 +18,7 @@ if DEBUG:
 
 app = Flask(__name__)
 
-client = WebApplicationClient(CLIENT_ID)
+client = WebApplicationClient(credentials.CLIENT_ID)
 
 
 @app.route("/")

@@ -15,10 +15,6 @@ HTML_CURRENT_MODE_PH = '{{CURRENT_MODE}}'
 SETTINGS_PAGE = pathlib.Path(__file__).parent.parent / "resources/settings.html"
 HOME_PAGE = pathlib.Path(__file__).parent.parent / "resources/index.html"
 
-# Client keys
-CLIENT_SECRET = "98f91bda2f894fa19c03e92e5cb2e0fc"
-CLIENT_ID = "da3de3dd940f45b898e04c9d9796e09b"
-
 modes = [
     "labels", "projects"
 ]
@@ -50,11 +46,6 @@ MINUTE = 60
 BUSY_INSTANCE = 0
 UPDATE_ALL_COOLDOWN = 15 * MINUTE
 COOLDOWN_KEY_FORMAT = "{user_id}:{task_id}"
-
-
-def cooldown_key(user_id, task_id):
-    return COOLDOWN_KEY_FORMAT.format(user_id=user_id, task_id=task_id)
-
 
 # Webhook related consts
 WEB_HOOK_TASK_ID = "id"

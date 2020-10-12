@@ -11,6 +11,10 @@ from server.consts import *
 instances = {}
 
 
+def cooldown_key(user_id, task_id):
+    return COOLDOWN_KEY_FORMAT.format(user_id=user_id, task_id=task_id)
+
+
 def handle_all_user_tasks(db, user_id):
     if not should_handle_user(user_id=user_id):
         logging.info(USER_IN_COOLDOWN_MESSAGE)
