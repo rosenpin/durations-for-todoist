@@ -1,8 +1,9 @@
 from todoist.models import Item
+from todoist_service import consts
 
-import consts
+from consts import consts as duration_consts
 from modes.mode import Mode
-from todoist_wrapper.todoist_wrapper import TodoistWrapper
+from todoist_service.todoist_wrapper.todoist_wrapper import TodoistWrapper
 
 
 class LabelsMode(Mode):
@@ -13,7 +14,7 @@ class LabelsMode(Mode):
         labels = self.doist.get_all_labels()
         labels_names = list(map(lambda label: label[consts.LabelFields.Name], labels))
 
-        for label_name in consts.duration_labels.keys():
+        for label_name in duration_consts.duration_labels.keys():
             if label_name not in labels_names:
                 self.doist.add_label(label_name)
 
@@ -33,8 +34,8 @@ class LabelsMode(Mode):
         task_labels = task[consts.TaskFields.Labels]
         for label_id in task_labels:
             label_name = self.get_label_name_from_id(label_id)
-            if label_name in consts.duration_labels:
-                return consts.duration_labels[label_name]
+            if label_name in duration_consts.duration_labels:
+                return duration_consts.duration_labels[label_name]
 
         return 0
 

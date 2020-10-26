@@ -1,11 +1,13 @@
 import logging
 
-from db.db import DB
-from duration_setter import DurationSetter
-from logic import Logic
+from todoist_service.db import DB
+from todoist_service.todoist_wrapper.todoist_api_wrapper import TodoistAPIWrapper
+
+from consts import consts
+from duration_setter.duration_setter import DurationSetter
+from logic.logic import Logic
 from modes.labels import LabelsMode
 from modes.projects import ProjectsMode
-from todoist_wrapper.todoist_api_wrapper import TodoistAPIWrapper
 
 modes = {
     "projects": ProjectsMode,
@@ -37,7 +39,7 @@ def run_for_user(db, user_id):
 
 
 def run_for_all_users():
-    db = DB.get_instance()
+    db = DB.get_instance(consts.db_path)
 
     users = db.get_all_users()
 

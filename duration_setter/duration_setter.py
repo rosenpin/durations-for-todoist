@@ -1,8 +1,8 @@
 import logging
 import re
 
-from consts import TaskFields
-from todoist_wrapper.todoist_wrapper import TodoistWrapper
+from todoist_service.consts import TaskFields
+from todoist_service.todoist_wrapper.todoist_wrapper import TodoistWrapper
 
 DURATION_FORMAT = "{original} [{duration}m]"
 DURATION_PATTERN = ".* \[\d+m\]$"

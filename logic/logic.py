@@ -1,10 +1,10 @@
 import logging
 
 from todoist.models import Item
+from todoist_service.todoist_wrapper.todoist_wrapper import TodoistWrapper
 
-from duration_setter import DurationSetter
+from duration_setter.duration_setter import DurationSetter
 from modes.mode import Mode
-from todoist_wrapper.todoist_wrapper import TodoistWrapper
 
 TASK_ITEM_FIELD = "item"
 

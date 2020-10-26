@@ -1,6 +1,6 @@
 import abc
 
-from todoist_wrapper.todoist_wrapper import TodoistWrapper
+from todoist_service.todoist_wrapper.todoist_wrapper import TodoistWrapper
 
 
 class Mode(metaclass=abc.ABCMeta):
