@@ -1,11 +1,13 @@
 import logging
 
 from todoist.models import Item
+from todoist_service import consts
 
-import consts
-from consts import ProjectFields
+from todoist_service.consts import ProjectFields
+
+from consts import consts as durations_consts
 from modes.mode import Mode
-from todoist_wrapper.todoist_wrapper import TodoistWrapper
+from todoist_service.todoist_wrapper.todoist_wrapper import TodoistWrapper
 
 
 class ProjectsMode(Mode):
@@ -17,7 +19,7 @@ class ProjectsMode(Mode):
         projects = self.doist.get_all_projects()
         project_names = list(map(lambda project: project[ProjectFields.Name], projects))
 
-        for label in consts.duration_labels.keys():
+        for label in durations_consts.duration_labels.keys():
             if label not in project_names:
                 self.doist.add_project(label)
 
@@ -32,8 +34,8 @@ class ProjectsMode(Mode):
     def get_duration(self, task: Item) -> int:
         logging.debug("getting task duration")
         project_name = self.get_project_from_task(task=task)
-        if project_name in consts.duration_labels:
-            return consts.duration_labels[project_name]
+        if project_name in durations_consts.duration_labels:
+            return durations_consts.duration_labels[project_name]
 
         logging.debug("couldn't get task duration")
         return 0

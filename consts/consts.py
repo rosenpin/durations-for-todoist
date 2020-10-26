@@ -1,24 +1,4 @@
-STATE_USER_FULL_NAME_FIELD = "full_name"
-STATE_USER_FIELD = "user"
-
-
-class TaskFields:
-    ID = "id"
-    Title = "content"
-    Item = "item"
-    Labels = "labels"
-    ProjectID = "project_id"
-
-
-class ProjectFields:
-    Project = "project"
-    Name = "name"
-
-
-class LabelFields:
-    Label = "label"
-    Name = "name"
-
+from pathlib import Path
 
 clock_icon = "⏲"
 
@@ -34,3 +14,5 @@ duration_labels = {
     clock_icon + "7h": 420,
     clock_icon + "8h": 480
 }
+
+db_path = Path.home().joinpath("users.json")

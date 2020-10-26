@@ -1,5 +1,6 @@
-from duration_setter import DurationSetter
-from tests.mock_todoist_wrapper import MockTodoistWrapper
+from todoist_service.todoist_wrapper.mock_todoist_wrapper import MockTodoistWrapper
+
+from duration_setter.duration_setter import DurationSetter
 
 
 def test_already_annotated():

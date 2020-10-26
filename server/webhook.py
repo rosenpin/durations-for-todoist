@@ -4,7 +4,7 @@ import time
 
 from flask import request, make_response
 
-import logic_runner
+from logic import logic_runner
 import utils
 from server.consts import *
 
