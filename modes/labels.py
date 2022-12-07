@@ -1,9 +1,8 @@
-from todoist_api_python.models import Task, Label
-from todoist_service import consts
+from todoist_api_python.models import Task
+from todoist_service.todoist_wrapper.todoist_wrapper import TodoistWrapper
 
 from consts import consts as duration_consts
 from modes.mode import Mode
-from todoist_service.todoist_wrapper.todoist_wrapper import TodoistWrapper
 
 
 class LabelsMode(Mode):
@@ -32,10 +31,9 @@ class LabelsMode(Mode):
         return label_name
 
     def get_duration(self, task: Task) -> int:
-        task_labels = task.labels
-        print("task labels are %s" % task_labels)
-        for label_id in task_labels:
-            label_name = self.get_label_name_from_id(label_id)
+        task_labels_names = task.labels
+        print("task labels are %s" % task_labels_names)
+        for label_name in task_labels_names:
             if label_name in duration_consts.duration_labels:
                 return duration_consts.duration_labels[label_name]
 
