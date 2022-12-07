@@ -1,7 +1,7 @@
 import logging
 import re
 
-from todoist_service.consts import TaskFields
+from todoist_api_python.models import Task
 from todoist_service.todoist_wrapper.todoist_wrapper import TodoistWrapper
 
 DURATION_FORMAT = "{original} [{duration}m]"
@@ -13,8 +13,8 @@ class DurationSetter:
         self.doist = doist
         self.regex = re.compile(DURATION_PATTERN)
 
-    def set_duration(self, task, duration):
-        title = task[TaskFields.Title]
+    def set_duration(self, task: Task, duration):
+        title = task.content
         if self.already_annotated(title=title):
             logging.info("skipping %s. already annotated" % title)
             return
@@ -22,8 +22,7 @@ class DurationSetter:
         logging.info("set {title} duration to {duration}".format(title=title, duration=duration))
         new_title = DURATION_FORMAT.format(original=title, duration=duration)
         logging.debug(f"task new title is {new_title}")
-        task.update(content=new_title)
-        self.doist.commit()
+        self.doist.update_task(task.id, content=new_title)
 
     def already_annotated(self, title) -> bool:
         return self.regex.match(title) is not None
