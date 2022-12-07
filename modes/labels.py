@@ -32,7 +32,6 @@ class LabelsMode(Mode):
 
     def get_duration(self, task: Task) -> int:
         task_labels_names = task.labels
-        print("task labels are %s" % task_labels_names)
         for label_name in task_labels_names:
             if label_name in duration_consts.duration_labels:
                 return duration_consts.duration_labels[label_name]
