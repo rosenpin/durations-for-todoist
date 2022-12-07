@@ -25,6 +25,7 @@ class LabelsMode(Mode):
         return self.doist.get_tasks(lambda task: self.is_task_relevant(task=task))
 
     def get_label_name_from_id(self, label_id):
+        print("getting label for label id %s" % label_id)
         label = self.doist.get_label(label_id=label_id)
 
         label_name = label.name
@@ -32,6 +33,7 @@ class LabelsMode(Mode):
 
     def get_duration(self, task: Task) -> int:
         task_labels = task.labels
+        print("task labels are %s" % task_labels)
         for label_id in task_labels:
             label_name = self.get_label_name_from_id(label_id)
             if label_name in duration_consts.duration_labels:

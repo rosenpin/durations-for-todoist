@@ -1,6 +1,7 @@
 import logging
 
 from todoist.models import Item
+from todoist_api_python.models import Task
 from todoist_service.todoist_wrapper.todoist_wrapper import TodoistWrapper
 
 from duration_setter.duration_setter import DurationSetter
@@ -15,7 +16,7 @@ class Logic:
         self.doist = doist
         self.mode = mode
 
-    def handle_task(self, task: Item):
+    def handle_task(self, task: Task):
         duration = self.mode.get_duration(task=task)
         logging.info("task duration is {duration}".format(duration=duration))
         self.ds.set_duration(task=task, duration=duration)
