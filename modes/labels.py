@@ -24,7 +24,6 @@ class LabelsMode(Mode):
         return self.doist.get_tasks(lambda task: self.is_task_relevant(task=task))
 
     def get_label_name_from_id(self, label_id):
-        print("getting label for label id %s" % label_id)
         label = self.doist.get_label(label_id=label_id)
 
         label_name = label.name
