@@ -22,7 +22,7 @@ class Logic:
 
     def run_specific_task(self, task_id):
         logging.info("running for specific task {task_id}".format(task_id=task_id))
-        self.mode.prepare()
+        #self.mode.prepare()
 
         task = self.doist.get_task_by_id(task_id)
 
