@@ -1,4 +1,4 @@
-from todoist.models import Item
+from todoist_api_python.models import Task, Label
 from todoist_service import consts
 
 from consts import consts as duration_consts
@@ -12,7 +12,7 @@ class LabelsMode(Mode):
 
     def prepare(self):
         labels = self.doist.get_all_labels()
-        labels_names = list(map(lambda label: label[consts.LabelFields.Name], labels))
+        labels_names = list(map(lambda label: label.name, labels))
 
         for label_name in duration_consts.duration_labels.keys():
             if label_name not in labels_names:
@@ -27,11 +27,11 @@ class LabelsMode(Mode):
     def get_label_name_from_id(self, label_id):
         label = self.doist.get_label(label_id=label_id)
 
-        label_name = label[consts.LabelFields.Label][consts.LabelFields.Name]
+        label_name = label.name
         return label_name
 
-    def get_duration(self, task: Item) -> int:
-        task_labels = task[consts.TaskFields.Labels]
+    def get_duration(self, task: Task) -> int:
+        task_labels = task.labels
         for label_id in task_labels:
             label_name = self.get_label_name_from_id(label_id)
             if label_name in duration_consts.duration_labels:
