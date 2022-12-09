@@ -1,10 +1,13 @@
 import logging
+import sys
 
 from todoist.models import Item
 from todoist_api_python.models import Task
+from todoist_service.todoist_wrapper.todoist_api_wrapper import TodoistAPIWrapper
 from todoist_service.todoist_wrapper.todoist_wrapper import TodoistWrapper
 
 from duration_setter.duration_setter import DurationSetter
+from modes.labels import LabelsMode
 from modes.mode import Mode
 
 TASK_ITEM_FIELD = "item"
@@ -22,8 +25,8 @@ class Logic:
         self.ds.set_duration(task=task, duration=duration)
 
     def run_specific_task(self, task_id):
+        logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
         logging.info("running for specific task {task_id}".format(task_id=task_id))
-        #self.mode.prepare()
 
         task = self.doist.get_task_by_id(task_id)
 
@@ -36,9 +39,6 @@ class Logic:
 
     def run(self):
         logging.info("running for all user tasks")
-
-        self.mode.prepare()
-        logging.info("prepared mode successfully")
 
         tasks = self.mode.get_relevant_tasks()
         logging.info("got relevant tasks")

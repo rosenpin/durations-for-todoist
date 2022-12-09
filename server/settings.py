@@ -51,4 +51,5 @@ def handle_submit(db):
     mode = request.args.get("mode")
     user_id = request.cookies.get(COOKIE_USERID)
     db.update_user_mode(user_id=user_id, mode=mode)
+    mode.prepare()
     return redirect(SETTINGS_PAGE_LOCATION)
