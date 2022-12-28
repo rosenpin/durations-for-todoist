@@ -14,17 +14,19 @@ from server.webhook import handle_web_hook, handle_all_user_tasks
 
 DEBUG = getpass.getuser() == "tomer"
 if DEBUG:
-    os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
+    os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
 
 app = Flask(__name__)
 
 client = WebApplicationClient(credentials.CLIENT_ID)
-authorization_handler = AuthorizationHandler(SERVER_REDIRECT_URL,
-                                             INNER_SERVER,
-                                             OUTER_SERVER,
-                                             credentials.CLIENT_ID,
-                                             credentials.CLIENT_SECRET,
-                                             TODOIST_PREMISSIONS)
+authorization_handler = AuthorizationHandler(
+    SERVER_REDIRECT_URL,
+    INNER_SERVER,
+    OUTER_SERVER,
+    credentials.CLIENT_ID,
+    credentials.CLIENT_SECRET,
+    TODOIST_PREMISSIONS,
+)
 
 
 @app.route("/")
@@ -34,7 +36,7 @@ def index():
         if user_id:
             return redirect("settings")
 
-        with open(HOME_PAGE, 'r') as file:
+        with open(HOME_PAGE, "r") as file:
             data = file.read()
             return make_response(data)
     except Exception as err:
@@ -49,7 +51,9 @@ def update_all():
         return redirect("/")
 
     try:
-        return handle_all_user_tasks(db=DB.get_instance(consts.db_path), user_id=user_id)
+        return handle_all_user_tasks(
+            db=DB.get_instance(consts.db_path), user_id=user_id
+        )
     except Exception as err:
         utils.log_error(err)
         return make_response(SERVER_ERROR_MESSAGE.format(error=err))
@@ -85,7 +89,7 @@ def submit():
         return SERVER_ERROR_MESSAGE.format(error=err)
 
 
-@app.route('/authorize')
+@app.route("/authorize")
 def authorize():
     try:
         response = authorization_handler.handle_authorization_request(client=client)
@@ -98,7 +102,9 @@ def authorize():
 @app.route("/redirect")
 def redirect_url():
     try:
-        response = authorization_handler.handle_redirect_request(client=client, db=DB.get_instance(consts.db_path))
+        response = authorization_handler.handle_redirect_request(
+            client=client, db=DB.get_instance(consts.db_path)
+        )
         return response
     except Exception as err:
         utils.log_error(err)
@@ -111,4 +117,6 @@ def favicon():
 
 
 def run_server():
-    app.run(port=SERVER_PORT, debug=DEBUG)
+    # from waitress import serve
+    # serve(app, host="0.0.0.0", port=SERVER_PORT)
+    app.run(host="0.0.0.0", port=SERVER_PORT, debug=DEBUG)
