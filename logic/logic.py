@@ -1,7 +1,6 @@
 import logging
 import sys
 
-from todoist.models import Item
 from todoist_api_python.models import Task
 from todoist_service.todoist_wrapper.todoist_api_wrapper import TodoistAPIWrapper
 from todoist_service.todoist_wrapper.todoist_wrapper import TodoistWrapper
