@@ -22,7 +22,12 @@ class DurationSetter:
         logging.info("set {title} duration to {duration}".format(title=title, duration=duration))
         new_title = DURATION_FORMAT.format(original=title, duration=duration)
         logging.debug(f"task new title is {new_title}")
-        self.doist.update_task(task.id, content=new_title)
+        return_value = self.doist.update_task(task.id, duration={
+            "amount": duration,
+            "unit": "minute"
+        })
+        logging.debug(f"return value from duration setting is {return_value}")
+        #self.doist.update_task(task.id, content=new_title) no longer relevant as we are using the duration field
 
     def already_annotated(self, title) -> bool:
         return self.regex.match(title) is not None
