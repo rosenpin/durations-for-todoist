@@ -1,7 +1,6 @@
 import logging
 
 from todoist_api_python.models import Task
-from todoist_service.consts import ProjectFields
 from todoist_service.todoist_wrapper.todoist_wrapper import TodoistWrapper
 
 from consts import consts as durations_consts
@@ -44,6 +43,6 @@ class ProjectsMode(Mode):
         project = self.doist.get_project(project_id=project_id)
 
         project_name = project.name
-        logging.debug("project name: {project_name}".format(project_name=project_name))
+        logging.debug("project name: %s", project_name)
 
         return project_name
