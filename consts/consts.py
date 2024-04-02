@@ -15,4 +15,4 @@ duration_labels = {
     clock_icon + "8h": 480
 }
 
-db_path = Path.home().joinpath("users.json")
+db_path = Path.home().joinpath("users.json").as_posix()
