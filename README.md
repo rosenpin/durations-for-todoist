@@ -1,3 +1,7 @@
+# Deprecated in favor of:
+[Todoist Plugins](https://github.com/rosenpin/todoist-plugins)
+
+
 # Durations For Todoist
 Automatically set Google Calendar events duration based on Todoist labels/projects
 
